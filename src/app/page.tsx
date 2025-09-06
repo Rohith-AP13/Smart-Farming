@@ -1,4 +1,4 @@
-import Dashboard from '@/components/agri-assist/Dashboard';
+import Dashboard from '@/components/smart-farming/Dashboard';
 import { Toaster } from "@/components/ui/toaster"
 
 export default function Home() {

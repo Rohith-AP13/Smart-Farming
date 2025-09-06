@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'AgriAssist',
+  title: 'Smart-Farming',
   description: 'AI-powered smart farming for higher yield and sustainability.',
 };
 
