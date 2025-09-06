@@ -3,7 +3,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'AgriAssist',
-  description: 'Smart Farming for higher yield and sustainability.',
+  description: 'AI-powered smart farming for higher yield and sustainability.',
 };
 
 export default function RootLayout({
