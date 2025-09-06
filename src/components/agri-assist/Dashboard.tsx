@@ -62,7 +62,7 @@ export default function Dashboard() {
               />
               <Card className="shadow-sm">
                 <CardHeader>
-                  <CardTitle>Soil Nutrient Balance</CardTitle>
+                  <h3 className="text-2xl font-semibold leading-none tracking-tight">Soil Nutrient Balance</h3>
                   <CardDescription>
                     Live visualization of the primary soil nutrients from the form above.
                   </CardDescription>
