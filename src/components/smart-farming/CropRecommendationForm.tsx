@@ -11,11 +11,11 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { handleCropRecommendation } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
-import type { GenerateCropRecommendationsOutput, SuggestOptimalFertilizerOutput } from '@/ai/flows/generate-crop-recommendations';
+import type { GenerateCropRecommendationsOutput } from '@/ai/flows/generate-crop-recommendations';
+import type { SuggestOptimalFertilizerOutput } from '@/ai/flows/suggest-optimal-fertilizer';
 import type { SoilData } from './Dashboard';
 import { CropRecommendationSchema } from '@/lib/schemas';
 import { Loader2, Thermometer, CloudDrizzle, Droplets, FlaskConical, Waves } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 type FormData = z.infer<typeof CropRecommendationSchema>;
 
