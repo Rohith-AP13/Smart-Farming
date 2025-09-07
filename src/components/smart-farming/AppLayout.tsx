@@ -1,53 +1,25 @@
+
 'use client';
 
 import React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import Link from 'next/link';
-import { Sidebar, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
-import { Home, Leaf, Droplets, LogOut, Loader2, BarChart3, Bot } from 'lucide-react';
+import { Sidebar, SidebarProvider, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarHeader, SidebarContent, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';
+import { Home, Leaf, Droplets, LogOut, BarChart3, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { handleLogout } from '@/app/actions';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [user, setUser] = React.useState<User | null>(null);
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const onLogout = async () => {
     await handleLogout();
-    await signOut(auth);
+    await signOut(auth).catch(console.error); // Catch potential errors on sign out
     router.push('/');
   };
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-      </div>
-    );
-  }
-  
-  if (!user) {
-    // This can happen briefly on page load or after logout.
-    // The middleware will handle redirecting to login if necessary.
-    return (
-       <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-      </div>
-    );
-  }
 
   return (
     <SidebarProvider>
@@ -86,8 +58,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </SidebarContent>
         <SidebarFooter>
           <div className="flex flex-col gap-2 p-2">
-            <span className="text-sm text-muted-foreground truncate">{user.email}</span>
-            <Button variant="ghost" size="sm" onClick={onLogout} className="justify-start gap-2">
+             <Button variant="ghost" size="sm" onClick={onLogout} className="justify-start gap-2">
               <LogOut />
               Logout
             </Button>
@@ -104,6 +75,3 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
-
-// Re-export SidebarProvider for convenience
-import { SidebarProvider, SidebarHeader, SidebarContent, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';
