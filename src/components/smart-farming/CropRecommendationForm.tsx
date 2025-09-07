@@ -50,13 +50,13 @@ const SliderField = ({
             {label}
           </FormLabel>
           <span className="text-sm font-semibold text-primary">
-            {field.value.toFixed(name === 'ph' ? 1 : 0)} {unit}
+            {typeof field.value === 'number' ? field.value.toFixed(name === 'ph' ? 1 : 0) : ''} {unit}
           </span>
         </div>
         <FormControl>
           <Slider
             onValueChange={(value) => field.onChange(value[0])}
-            value={[field.value]}
+            value={typeof field.value === 'number' ? [field.value] : [min]}
             min={min}
             max={max}
             step={step}
