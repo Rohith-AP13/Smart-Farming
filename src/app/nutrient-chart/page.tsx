@@ -1,37 +1,26 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
-import AppLayout from '@/components/smart-farming/AppLayout';
+import type { Dispatch, SetStateAction } from 'react';
 import NutrientChart from '@/components/smart-farming/NutrientChart';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
+import type { SoilData } from '@/components/smart-farming/AppLayout';
 
-export type SoilData = {
-  nitrogen: number;
-  phosphorus: number;
-  potassium: number;
-};
+interface NutrientChartPageProps {
+    soilData: SoilData;
+    setSoilData: Dispatch<SetStateAction<SoilData>>;
+}
 
-export default function NutrientChartPage() {
-  const [soilData, setSoilData] = useState<SoilData>({ nitrogen: 50, phosphorus: 50, potassium: 50 });
-
-   useEffect(() => {
-     const storedSoilData = localStorage.getItem('soilData');
-     if (storedSoilData) {
-        setSoilData(JSON.parse(storedSoilData));
-     }
-  }, []);
+export default function NutrientChartPage({ soilData, setSoilData }: NutrientChartPageProps) {
 
   const handleSliderChange = (nutrient: keyof SoilData, value: number) => {
     const newData = {...soilData, [nutrient]: value};
     setSoilData(newData);
-    localStorage.setItem('soilData', JSON.stringify(newData));
   }
 
   return (
-    <AppLayout>
       <div className="grid gap-8 lg:grid-cols-2">
         <Card className="shadow-sm">
             <CardHeader>
@@ -78,6 +67,5 @@ export default function NutrientChartPage() {
             </CardContent>
         </Card>
       </div>
-    </AppLayout>
   );
 }

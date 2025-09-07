@@ -14,7 +14,7 @@ import { handleCropRecommendation } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import type { GenerateCropRecommendationsOutput } from '@/ai/flows/generate-crop-recommendations';
 import type { SuggestOptimalFertilizerOutput } from '@/ai/flows/suggest-optimal-fertilizer';
-import type { SoilData } from '@/app/crop-recommendation/page';
+import type { SoilData } from '@/components/smart-farming/AppLayout';
 import { CropRecommendationSchema } from '@/lib/schemas';
 import { Loader2, Thermometer, CloudDrizzle, Droplets, FlaskConical, Waves } from 'lucide-react';
 
@@ -73,20 +73,20 @@ export default function CropRecommendationForm({
   setResult,
   setSoilDataForChart,
   setFertilizerResult,
+  initialSoilData,
 }: {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setResult: Dispatch<SetStateAction<GenerateCropRecommendationsOutput | null>>;
   setSoilDataForChart: Dispatch<SetStateAction<SoilData>>;
   setFertilizerResult: Dispatch<SetStateAction<SuggestOptimalFertilizerOutput | null>>;
+  initialSoilData: SoilData;
 }) {
   const { toast } = useToast();
 
   const form = useForm<FormData>({
     resolver: zodResolver(CropRecommendationSchema),
     defaultValues: {
-      nitrogen: 50,
-      phosphorus: 50,
-      potassium: 50,
+      ...initialSoilData,
       ph: 6.5,
       moisture: 60,
       temperature: 25,
@@ -98,14 +98,19 @@ export default function CropRecommendationForm({
   const watchedData = form.watch();
 
   useEffect(() => {
-    const soilData = {
+    setSoilDataForChart({
       nitrogen: watchedData.nitrogen,
       phosphorus: watchedData.phosphorus,
       potassium: watchedData.potassium,
-    };
-    setSoilDataForChart(soilData);
-    localStorage.setItem('soilData', JSON.stringify(soilData));
+    });
   }, [watchedData.nitrogen, watchedData.phosphorus, watchedData.potassium, setSoilDataForChart]);
+  
+  useEffect(() => {
+      form.reset({
+          ...form.getValues(),
+          ...initialSoilData
+      })
+  }, [initialSoilData, form])
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -122,7 +127,6 @@ export default function CropRecommendationForm({
       });
     } else {
       setResult(result);
-      localStorage.setItem('cropResult', JSON.stringify(result));
       toast({
         title: 'Success!',
         description: 'Crop recommendations have been generated.',

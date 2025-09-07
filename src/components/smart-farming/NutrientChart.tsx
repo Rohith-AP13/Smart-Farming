@@ -3,12 +3,7 @@
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, LabelList } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '@/components/ui/chart';
-
-export type SoilData = {
-  nitrogen: number;
-  phosphorus: number;
-  potassium: number;
-};
+import type { SoilData } from '@/components/smart-farming/AppLayout';
 
 
 const chartConfig = {

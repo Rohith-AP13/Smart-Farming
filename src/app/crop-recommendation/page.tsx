@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import AppLayout from '@/components/smart-farming/AppLayout';
 import CropRecommendationForm from '@/components/smart-farming/CropRecommendationForm';
 import ResultsDisplay from '@/components/smart-farming/ResultsDisplay';
@@ -9,21 +9,33 @@ import NutrientChart from '@/components/smart-farming/NutrientChart';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import type { GenerateCropRecommendationsOutput } from '@/ai/flows/generate-crop-recommendations';
 import type { SuggestOptimalFertilizerOutput } from '@/ai/flows/suggest-optimal-fertilizer';
+import type { SoilData } from '@/components/smart-farming/AppLayout';
 
-export type SoilData = {
-  nitrogen: number;
-  phosphorus: number;
-  potassium: number;
-};
 
-export default function CropRecommendationPage() {
-  const [cropResult, setCropResult] = useState<GenerateCropRecommendationsOutput | null>(null);
-  const [isLoadingCrop, setIsLoadingCrop] = useState(false);
-  const [soilData, setSoilData] = useState<SoilData>({ nitrogen: 50, phosphorus: 50, potassium: 50 });
-  const [fertilizerResult, setFertilizerResult] = useState<SuggestOptimalFertilizerOutput | null>(null);
+interface CropRecommendationPageProps {
+  cropResult: GenerateCropRecommendationsOutput | null;
+  setCropResult: Dispatch<SetStateAction<GenerateCropRecommendationsOutput | null>>;
+  fertilizerResult: SuggestOptimalFertilizerOutput | null;
+  setFertilizerResult: Dispatch<SetStateAction<SuggestOptimalFertilizerOutput | null>>;
+  soilData: SoilData;
+  setSoilData: Dispatch<SetStateAction<SoilData>>;
+  isLoadingCrop: boolean;
+  setIsLoadingCrop: Dispatch<SetStateAction<boolean>>;
+  isLoadingFertilizer: boolean;
+}
+
+
+export default function CropRecommendationPage({
+  cropResult,
+  setCropResult,
+  setFertilizerResult,
+  soilData,
+  setSoilData,
+  isLoadingCrop,
+  setIsLoadingCrop,
+}: CropRecommendationPageProps) {
 
   return (
-    <AppLayout>
       <div className="grid gap-8 lg:grid-cols-5">
         <div className="lg:col-span-2">
           <CropRecommendationForm 
@@ -31,6 +43,7 @@ export default function CropRecommendationPage() {
             setResult={setCropResult}
             setSoilDataForChart={setSoilData}
             setFertilizerResult={setFertilizerResult}
+            initialSoilData={soilData}
           />
         </div>
         
@@ -54,6 +67,5 @@ export default function CropRecommendationPage() {
           </Card>
         </div>
       </div>
-    </AppLayout>
   );
 }

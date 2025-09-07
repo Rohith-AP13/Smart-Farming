@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -10,16 +10,43 @@ import { Sidebar, SidebarProvider, SidebarMenu, SidebarMenuItem, SidebarMenuButt
 import { Home, Leaf, Droplets, LogOut, BarChart3, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { handleLogout } from '@/app/actions';
+import type { GenerateCropRecommendationsOutput } from '@/ai/flows/generate-crop-recommendations';
+import type { SuggestOptimalFertilizerOutput } from '@/ai/flows/suggest-optimal-fertilizer';
+
+export type SoilData = {
+  nitrogen: number;
+  phosphorus: number;
+  potassium: number;
+};
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+  
+  const [cropResult, setCropResult] = useState<GenerateCropRecommendationsOutput | null>(null);
+  const [fertilizerResult, setFertilizerResult] = useState<SuggestOptimalFertilizerOutput | null>(null);
+  const [soilData, setSoilData] = useState<SoilData>({ nitrogen: 50, phosphorus: 50, potassium: 50 });
+  const [isLoadingCrop, setIsLoadingCrop] = useState(false);
+  const [isLoadingFertilizer, setIsLoadingFertilizer] = useState(false);
 
   const onLogout = async () => {
     await handleLogout();
-    await signOut(auth).catch(console.error); // Catch potential errors on sign out
+    await signOut(auth).catch(console.error);
     router.push('/');
   };
+
+  const childrenWithProps = React.Children.map(children, child => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, {
+          cropResult, setCropResult,
+          fertilizerResult, setFertilizerResult,
+          soilData, setSoilData,
+          isLoadingCrop, setIsLoadingCrop,
+          isLoadingFertilizer, setIsLoadingFertilizer
+       } as any);
+    }
+    return child;
+  });
 
   return (
     <SidebarProvider>
@@ -68,7 +95,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <SidebarInset>
         <main className="flex-1 p-4 md:p-8 lg:p-12 bg-background">
             <div className="mx-auto grid max-w-7xl gap-8">
-             {children}
+             {childrenWithProps}
             </div>
         </main>
       </SidebarInset>
