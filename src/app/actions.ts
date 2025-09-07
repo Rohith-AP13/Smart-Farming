@@ -13,6 +13,7 @@ import {
 import { z } from 'zod';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
+import { cookies } from 'next/headers';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -36,7 +37,9 @@ export async function handleLogin(prevState: any, formData: FormData) {
   const { email, password } = validatedFields.data;
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const idToken = await userCredential.user.getIdToken();
+    cookies().set('firebaseIdToken', idToken, { secure: true, httpOnly: true });
     return { success: true };
   } catch (error: any) {
     return {
@@ -44,6 +47,11 @@ export async function handleLogin(prevState: any, formData: FormData) {
     };
   }
 }
+
+export async function handleLogout() {
+    cookies().delete('firebaseIdToken');
+}
+
 
 export async function handleSignup(prevState: any, formData: FormData) {
   const validatedFields = signupSchema.safeParse(Object.fromEntries(formData));

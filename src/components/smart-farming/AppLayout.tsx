@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -9,6 +8,7 @@ import Link from 'next/link';
 import { Sidebar, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 import { Home, Leaf, Droplets, LogOut, Loader2, BarChart3, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { handleLogout } from '@/app/actions';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -29,7 +29,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     return () => unsubscribe();
   }, [router]);
 
-  const handleLogout = async () => {
+  const onLogout = async () => {
+    await handleLogout();
     await signOut(auth);
     router.push('/');
   };
@@ -84,7 +85,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <SidebarFooter>
           <div className="flex flex-col gap-2 p-2">
             <span className="text-sm text-muted-foreground truncate">{user.email}</span>
-            <Button variant="ghost" size="sm" onClick={handleLogout} className="justify-start gap-2">
+            <Button variant="ghost" size="sm" onClick={onLogout} className="justify-start gap-2">
               <LogOut />
               Logout
             </Button>
