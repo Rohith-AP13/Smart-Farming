@@ -13,7 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import type { SuggestOptimalFertilizerOutput } from '@/ai/flows/suggest-optimal-fertilizer';
 import { FertilizerSuggestionSchema } from '@/lib/schemas';
 import { Loader2 } from 'lucide-react';
-import type { SoilData } from '@/components/smart-farming/AppLayout';
+import type { SoilData } from '@/context/AppContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type FormData = z.infer<typeof FertilizerSuggestionSchema>;

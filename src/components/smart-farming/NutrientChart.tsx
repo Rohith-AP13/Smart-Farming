@@ -3,7 +3,7 @@
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, LabelList } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '@/components/ui/chart';
-import type { SoilData } from '@/components/smart-farming/AppLayout';
+import type { SoilData } from '@/context/AppContext';
 
 
 const chartConfig = {

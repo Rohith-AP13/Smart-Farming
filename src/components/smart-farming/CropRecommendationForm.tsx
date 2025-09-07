@@ -14,7 +14,7 @@ import { handleCropRecommendation } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import type { GenerateCropRecommendationsOutput } from '@/ai/flows/generate-crop-recommendations';
 import type { SuggestOptimalFertilizerOutput } from '@/ai/flows/suggest-optimal-fertilizer';
-import type { SoilData } from '@/components/smart-farming/AppLayout';
+import type { SoilData } from '@/context/AppContext';
 import { CropRecommendationSchema } from '@/lib/schemas';
 import { Loader2, Thermometer, CloudDrizzle, Droplets, FlaskConical, Waves } from 'lucide-react';
 
