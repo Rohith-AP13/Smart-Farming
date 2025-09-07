@@ -2,7 +2,7 @@
 'use client';
 
 import { useFormStatus } from 'react-dom';
-import { useActionState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { handleLogin, handleSignup } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Bot } from 'lucide-react';
 import { onAuthStateChanged } from 'firebase/auth';
