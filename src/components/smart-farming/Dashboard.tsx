@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -16,9 +17,9 @@ export default function Dashboard() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <h3 className="text-sm font-medium">
               Crop Recommendation
-            </CardTitle>
+            </h3>
             <Leaf className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -30,9 +31,9 @@ export default function Dashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+            <h3 className="text-sm font-medium">
               Fertilizer Suggestion
-            </CardTitle>
+            </h3>
             <Droplets className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -44,7 +45,7 @@ export default function Dashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Nutrient Analysis</CardTitle>
+            <h3 className="text-sm font-medium">Nutrient Analysis</h3>
             <FlaskConical className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>

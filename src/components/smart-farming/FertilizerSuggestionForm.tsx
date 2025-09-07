@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, type Dispatch, type SetStateAction } from 'react';
@@ -12,7 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import type { SuggestOptimalFertilizerOutput } from '@/ai/flows/suggest-optimal-fertilizer';
 import { FertilizerSuggestionSchema } from '@/lib/schemas';
 import { Loader2 } from 'lucide-react';
-import type { SoilData } from './Dashboard';
+import type { SoilData } from '@/app/fertilizer-suggestion/page';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type FormData = z.infer<typeof FertilizerSuggestionSchema>;

@@ -1,8 +1,15 @@
+
 'use client';
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, LabelList } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '@/components/ui/chart';
-import type { SoilData } from './Dashboard';
+
+export type SoilData = {
+  nitrogen: number;
+  phosphorus: number;
+  potassium: number;
+};
+
 
 const chartConfig = {
   value: {

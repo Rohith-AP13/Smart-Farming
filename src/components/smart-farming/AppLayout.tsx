@@ -103,4 +103,4 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 }
 
 // Re-export SidebarProvider for convenience
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarProvider, SidebarHeader, SidebarContent, SidebarFooter, SidebarInset } from '@/components/ui/sidebar';

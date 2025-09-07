@@ -28,9 +28,10 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
 export default function Login() {
   const router = useRouter();
   const { toast } = useToast();
-  const [loginState, loginAction] = useFormState(handleLogin, { error: null });
-  const [signupState, signupAction] = useFormState(handleSignup, { error: null });
+  const [loginState, loginAction] = useFormState(handleLogin, { error: null, success: false });
+  const [signupState, signupAction] = useFormState(handleSignup, { error: null, success: false });
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('login');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -59,6 +60,7 @@ export default function Login() {
     }
     if (signupState?.success) {
       toast({ title: 'Success', description: 'Account created. Please log in.' });
+      setActiveTab('login'); // Switch to login tab after successful signup
     }
   }, [signupState, toast]);
   
@@ -78,7 +80,7 @@ export default function Login() {
             <Bot className="h-10 w-10 text-primary" />
             <h1 className="text-3xl font-bold text-primary font-headline">AgriAssist</h1>
         </div>
-        <Tabs defaultValue="login" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login">Login</TabsTrigger>
             <TabsTrigger value="signup">Sign Up</TabsTrigger>
