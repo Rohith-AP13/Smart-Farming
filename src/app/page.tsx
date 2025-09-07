@@ -1,11 +1,5 @@
-import Dashboard from '@/components/smart-farming/Dashboard';
-import { Toaster } from "@/components/ui/toaster"
+import Login from '@/components/smart-farming/Login';
 
-export default function Home() {
-  return (
-    <>
-      <Dashboard />
-      <Toaster />
-    </>
-  );
+export default function HomePage() {
+  return <Login />;
 }

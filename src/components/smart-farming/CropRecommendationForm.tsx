@@ -97,17 +97,19 @@ export default function CropRecommendationForm({
   const watchedData = form.watch();
 
   useEffect(() => {
-    setSoilDataForChart({
+    const soilData = {
       nitrogen: watchedData.nitrogen,
       phosphorus: watchedData.phosphorus,
       potassium: watchedData.potassium,
-    });
+    };
+    setSoilDataForChart(soilData);
+    localStorage.setItem('soilData', JSON.stringify(soilData));
   }, [watchedData.nitrogen, watchedData.phosphorus, watchedData.potassium, setSoilDataForChart]);
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
     setResult(null);
-    setFertilizerResult(null);
+    setFertilizerResult(null); // Clear previous fertilizer results
     const { data: result, error } = await handleCropRecommendation(data);
     setIsLoading(false);
 
@@ -119,6 +121,7 @@ export default function CropRecommendationForm({
       });
     } else {
       setResult(result);
+      localStorage.setItem('cropResult', JSON.stringify(result));
       toast({
         title: 'Success!',
         description: 'Crop recommendations have been generated.',
