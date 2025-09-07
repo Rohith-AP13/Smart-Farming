@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, type ReactNode, type Dispatch, type SetStateAction } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -19,7 +19,20 @@ export type SoilData = {
   potassium: number;
 };
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+interface AppState {
+  cropResult: GenerateCropRecommendationsOutput | null;
+  setCropResult: Dispatch<SetStateAction<GenerateCropRecommendationsOutput | null>>;
+  fertilizerResult: SuggestOptimalFertilizerOutput | null;
+  setFertilizerResult: Dispatch<SetStateAction<SuggestOptimalFertilizerOutput | null>>;
+  soilData: SoilData;
+  setSoilData: Dispatch<SetStateAction<SoilData>>;
+  isLoadingCrop: boolean;
+  setIsLoadingCrop: Dispatch<SetStateAction<boolean>>;
+  isLoadingFertilizer: boolean;
+  setIsLoadingFertilizer: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function AppLayout({ children }: { children: (state: AppState) => ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   
@@ -35,18 +48,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     router.push('/');
   };
 
-  const childrenWithProps = React.Children.map(children, child => {
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child, {
-          cropResult, setCropResult,
-          fertilizerResult, setFertilizerResult,
-          soilData, setSoilData,
-          isLoadingCrop, setIsLoadingCrop,
-          isLoadingFertilizer, setIsLoadingFertilizer
-       } as any);
-    }
-    return child;
-  });
+  const state: AppState = {
+    cropResult, setCropResult,
+    fertilizerResult, setFertilizerResult,
+    soilData, setSoilData,
+    isLoadingCrop, setIsLoadingCrop,
+    isLoadingFertilizer, setIsLoadingFertilizer
+  };
 
   return (
     <SidebarProvider>
@@ -95,7 +103,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <SidebarInset>
         <main className="flex-1 p-4 md:p-8 lg:p-12 bg-background">
             <div className="mx-auto grid max-w-7xl gap-8">
-             {childrenWithProps}
+             {children(state)}
             </div>
         </main>
       </SidebarInset>
