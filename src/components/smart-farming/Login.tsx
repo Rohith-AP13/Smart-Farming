@@ -1,7 +1,8 @@
 
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
 import { useRouter } from 'next/navigation';
 import { handleLogin, handleSignup } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,8 +29,8 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
 export default function Login() {
   const router = useRouter();
   const { toast } = useToast();
-  const [loginState, loginAction] = useFormState(handleLogin, { error: null, success: false });
-  const [signupState, signupAction] = useFormState(handleSignup, { error: null, success: false });
+  const [loginState, loginAction] = useActionState(handleLogin, { error: null, success: false });
+  const [signupState, signupAction] = useActionState(handleSignup, { error: null, success: false });
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('login');
 
