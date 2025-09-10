@@ -28,6 +28,8 @@ function FertilizerSuggestionContent() {
           fertilizerResult={fertilizerResult}
           isLoadingCrop={false}
           isLoadingFertilizer={isLoadingFertilizer}
+          showCropResults={true}
+          showFertilizerResults={true}
         />
       </div>
     </div>

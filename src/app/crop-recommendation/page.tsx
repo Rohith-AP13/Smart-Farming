@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useAppContext } from '@/context/AppContext';
 
 function CropRecommendationContent() {
-  const { soilData, setSoilData, cropResult, setCropResult, fertilizerResult, setFertilizerResult, isLoadingCrop, setIsLoadingCrop } = useAppContext();
+  const { soilData, setSoilData, cropResult, setCropResult, setFertilizerResult, isLoadingCrop, setIsLoadingCrop } = useAppContext();
   
   return (
     <div className="grid gap-8 lg:grid-cols-5">
@@ -30,6 +30,7 @@ function CropRecommendationContent() {
           fertilizerResult={null} 
           isLoadingCrop={isLoadingCrop}
           isLoadingFertilizer={false}
+          showFertilizerResults={false}
         />
         <Card className="shadow-sm">
           <CardHeader>
